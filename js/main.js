@@ -8,35 +8,35 @@ import { getDescr } from "./components/desc.js";
 
 const app = document.getElementById('app')
 
+// из документации к библиотеке роутера navigo
+export const router = new Navigo('/'); // export const router что бы можно было использовать в других модулях
 
 const header = getHeader()
 const pageContainer = getPageContainer()
 
-export async function navigation(page) { // export function navigation из main делать не хорошо
-    // будем использовать динамический импорт , что бы загружать только нужные страницы и не захламлять память
+
+router.on('/', async () => {
     pageContainer.innerHTML = ''
+    const pageModuleMain = await import("./pages/main.js") // динамический импорт // да файл называется main, но он относится к главной странице(первой)
+    const mainPage = pageModuleMain.getMainPage()
+    pageContainer.append(mainPage)
+})
 
-    switch (page) { // работает как табы
-        case 'catalog':
-            const pageModuleCatalog = await import("./pages/catalog.js") // динамический импорт, здесь получаем объект
-            const catalogPage = pageModuleCatalog.getCatalogPage()
-            // pageModuleCatalog.getCatalogPage() - т.к. из импорта приходит объект, а .getCatalogPage() - это ключ
-            pageContainer.append(catalogPage)
-            break
-        case 'basket':
-            const pageModuleBasket = await import("./pages/basket.js") // динамический импорт
-            const basketPage = pageModuleBasket.getBasketPage()
-            pageContainer.append(basketPage)
-            break
-        default :
-        const pageModuleMain = await import("./pages/main.js") // динамический импорт // да файл называется main, но он относится к главной странице(первой)
-            const mainPage = pageModuleMain.getMainPage()
-            pageContainer.append(mainPage)
-            break
-    }
-}
+router.on('/catalog', async () => {
+    pageContainer.innerHTML = ''
+    const pageModuleCatalog = await import("./pages/catalog.js") // динамический импорт, здесь получаем объект
+    const catalogPage = pageModuleCatalog.getCatalogPage()
+    // pageModuleCatalog.getCatalogPage() - т.к. из импорта приходит объект, а .getCatalogPage() - это ключ
+    pageContainer.append(catalogPage)
+})
 
+router.on('/basket', async () => {
+    pageContainer.innerHTML = ''
+    const pageModuleBasket = await import("./pages/basket.js") // динамический импорт
+    const basketPage = pageModuleBasket.getBasketPage()
+    pageContainer.append(basketPage)
+})
 
-navigation () // запускаем, что бы загрузилась страница главное по default.
+router.resolve();
 
 app.append(header, pageContainer)

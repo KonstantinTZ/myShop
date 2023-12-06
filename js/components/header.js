@@ -1,4 +1,4 @@
-import { navigation } from "../main.js";
+import { router } from "../main.js";
 // создаем шапку
 export function getHeader() {
     const header = document.createElement('header');
@@ -18,7 +18,8 @@ export function getHeader() {
 
     link1.addEventListener('click', function (event) {
         event.preventDefault();
-        navigation() // т.к. есть параметр в swich case - default
+        // navigation() // теперь нам не нужен , т.к. есть отдельный роутер для этого
+        router.navigate('/')
     })
 
     let link2 = document.createElement('a');
@@ -28,7 +29,7 @@ export function getHeader() {
 
     link2.addEventListener('click', function (event) {
         event.preventDefault();
-        navigation('catalog')
+        router.navigate('/catalog')
     })
 
     let link3 = document.createElement('a');
@@ -38,7 +39,7 @@ export function getHeader() {
 
     link3.addEventListener('click', function (event) {
         event.preventDefault();
-        navigation('basket')
+        router.navigate('/basket')
     })
 
     nav.append(link1, link2, link3)
