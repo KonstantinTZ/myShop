@@ -36,7 +36,7 @@ body {
   color: #fff;
   background-color: #05f;
   border: none;
-  border-radius: 0;
+  border-radius: 15px;
   outline: 1px solid #0000;
   padding: 15px 30px;
   transition: background-color .3s, outline-color .3s;
@@ -58,12 +58,6 @@ body {
 .page {
   background-color: #fff;
   padding: 20px;
-}
-
-.product-list {
-  flex-wrap: wrap;
-  gap: 20px;
-  display: flex;
 }
 
 /*# sourceMappingURL=index.c92073ef.css.map */

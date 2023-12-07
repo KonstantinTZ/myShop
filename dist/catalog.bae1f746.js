@@ -580,17 +580,20 @@ parcelHelpers.defineInteropFlag(exports);
 // стр католога
 parcelHelpers.export(exports, "getCatalogPage", ()=>getCatalogPage);
 var _mainTitleJs = require("/src/js/components/mainTitle/mainTitle.js");
-var _descJs = require("/src/js/components/desc/desc.js");
+var _productsListJs = require("/src/js/components/productsList/productsList.js");
+var _config = require("/src/js/config");
 function getCatalogPage() {
     const page = document.createElement("div");
     page.classList.add("page", "catalog-page", "container");
     const mainTitle = (0, _mainTitleJs.getMainTitle)("\u041A\u0430\u0442\u0430\u043B\u043E\u0433");
-    const desc = (0, _descJs.getDescr)("\u0421\u0442\u0440\u0430\u043D\u0438\u0446\u0430 \u0432 \u0440\u0430\u0437\u0440\u0430\u0431\u043E\u0442\u043A\u0435");
-    page.append(mainTitle, desc);
+    const product = (0, _productsListJs.getProductsList)();
+    product.getProducts(`${(0, _config.URL)}/wp-json/wp/v1/products`) // -> потому что требуется URI
+    ;
+    page.append(mainTitle, product.productLists);
     return page;
 }
 
-},{"/src/js/components/mainTitle/mainTitle.js":"ki5if","/src/js/components/desc/desc.js":"2aBBT","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"ki5if":[function(require,module,exports) {
+},{"/src/js/components/mainTitle/mainTitle.js":"ki5if","/src/js/components/productsList/productsList.js":"aAtZQ","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3","/src/js/config":"k5Hzs"}],"ki5if":[function(require,module,exports) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
 // create main title
@@ -603,19 +606,86 @@ function getMainTitle(text) {
     return title;
 }
 
-},{"./mainTitle.css":"8xezA","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"8xezA":[function() {},{}],"2aBBT":[function(require,module,exports) {
+},{"./mainTitle.css":"8xezA","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"8xezA":[function() {},{}],"aAtZQ":[function(require,module,exports) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
-// create description
-parcelHelpers.export(exports, "getDescr", ()=>getDescr);
-var _descCss = require("./desc.css");
-function getDescr(text) {
-    const desc = document.createElement("p");
-    desc.textContent = text;
-    desc.classList.add("desc");
-    return desc;
+//компонент список товаров
+parcelHelpers.export(exports, "getProductsList", ()=>getProductsList);
+var _productsListCss = require("./productsList.css");
+var _productCardJs = require("/src/js/components/productCard/productCard.js");
+function getProductsList() {
+    const productLists = document.createElement("div");
+    productLists.classList.add("product-list");
+    const preloader = document.createElement("div");
+    preloader.classList.add("lds-dual-ring");
+    // productLists.append(preloader)
+    async function getProducts(URI) {
+        try {
+            const response = await fetch(URI);
+            if (response.ok) preloader.classList.add("preloader-hidden");
+            if (response.status === 404) throw new Error("\u0422\u043E\u0430\u0432\u0440\u044B \u043D\u0435 \u043D\u0430\u0439\u0434\u0435\u043D\u044B");
+            const data = await response.json();
+            console.log(data);
+            const list = document.createElement("ul");
+            list.classList.add("product-list__list");
+            for (const productObj of data){
+                const productCard = (0, _productCardJs.getProductCard)(productObj);
+                list.append(productCard);
+            }
+            productLists.append(list);
+        } catch (error) {
+            const msg = document.createElement("span");
+            msg.classList.add("products-list__msg");
+            msg.textContent = error.message;
+            productLists.append(msg);
+            console.log(error);
+        }
+    }
+    return {
+        productLists,
+        getProducts
+    };
 }
 
-},{"./desc.css":"kfYoF","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"kfYoF":[function() {},{}]},["gKH8p"], null, "parcelRequirede3a")
+},{"./productsList.css":"dMm9t","/src/js/components/productCard/productCard.js":"9WzTu","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"dMm9t":[function() {},{}],"9WzTu":[function(require,module,exports) {
+var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
+parcelHelpers.defineInteropFlag(exports);
+// карточка товара
+parcelHelpers.export(exports, "getProductCard", ()=>getProductCard);
+var _mainJs = require("/src/js/main.js");
+var _productCardCss = require("./productCard.css");
+function getProductCard(productObj) {
+    const item = document.createElement("li");
+    item.classList.add("product");
+    const productTitle = document.createElement("h2");
+    productTitle.classList.add("product__title");
+    const productPreview = document.createElement("img");
+    productPreview.classList.add("product__productPreview");
+    productPreview.src = productObj.preview;
+    let productLink = document.createElement("a");
+    productLink.textContent = productObj.title;
+    productLink.href = "";
+    productLink.addEventListener("click", function(elem) {
+        elem.preventDefault();
+        (0, _mainJs.router).navigate(`/product/${productObj.id}`);
+    });
+    productTitle.append(productLink);
+    const productPrice = document.createElement("strong");
+    productPrice.textContent = `${productObj.price} \u{440}\u{443}\u{431}.`;
+    productPrice.classList.add("product__price");
+    const addBasket = document.createElement("button");
+    addBasket.textContent = `\u{412} \u{43A}\u{43E}\u{440}\u{437}\u{438}\u{43D}\u{443}`;
+    addBasket.classList.add("btn", "product__add-basket-btn");
+    item.append(productPreview, productTitle, productPrice, addBasket);
+    return item;
+}
+
+},{"/src/js/main.js":"1SICI","./productCard.css":"8FtH3","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"8FtH3":[function() {},{}],"k5Hzs":[function(require,module,exports) {
+var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
+parcelHelpers.defineInteropFlag(exports);
+parcelHelpers.export(exports, "URL", ()=>URL);
+const URL = "https://shop-frontent.ru";
+
+},{"@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}]},["gKH8p"], null, "parcelRequirede3a")
 
 //# sourceMappingURL=catalog.bae1f746.js.map
