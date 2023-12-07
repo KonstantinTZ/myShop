@@ -579,8 +579,8 @@ var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
 // Главная стр
 parcelHelpers.export(exports, "getMainPage", ()=>getMainPage);
-var _mainTitleJs = require("../components/mainTitle.js");
-var _productCardJs = require("../components/productCard.js");
+var _mainTitleJs = require("/src/js/components/mainTitle.js");
+var _productCardJs = require("/src/js/components/productCard.js");
 function getMainPage() {
     const page = document.createElement("div");
     page.classList.add("page", "main-page", "container");
@@ -592,6 +592,47 @@ function getMainPage() {
     return page;
 }
 
-},{"../components/mainTitle.js":"1BNwr","../components/productCard.js":"6onfN","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}]},["7FumU"], null, "parcelRequirede3a")
+},{"@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3","/src/js/components/mainTitle.js":"1BNwr","/src/js/components/productCard.js":"6onfN"}],"1BNwr":[function(require,module,exports) {
+// create main title
+var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
+parcelHelpers.defineInteropFlag(exports);
+parcelHelpers.export(exports, "getMainTitle", ()=>getMainTitle);
+function getMainTitle(text) {
+    const title = document.createElement("h1");
+    title.textContent = text;
+    title.classList.add("main-title");
+    return title;
+}
+
+},{"@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"6onfN":[function(require,module,exports) {
+var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
+parcelHelpers.defineInteropFlag(exports);
+// карточка товара
+parcelHelpers.export(exports, "getProductCard", ()=>getProductCard);
+var _mainJs = require("/src/js/main.js");
+function getProductCard(title, price) {
+    const item = document.createElement("li");
+    item.classList.add("product-list__item");
+    const productTitle = document.createElement("h2");
+    productTitle.classList.add("product-list__title");
+    let productLink = document.createElement("a");
+    productLink.textContent = title;
+    productLink.href = "";
+    productLink.addEventListener("click", function(elem) {
+        elem.preventDefault();
+        (0, _mainJs.router).navigate(`/product/${title}`);
+    });
+    productTitle.append(productLink);
+    const productPrice = document.createElement("strong");
+    productPrice.textContent = `${price} \u{440}\u{443}\u{431}.`;
+    productPrice.classList.add("product-list__price");
+    const addBasket = document.createElement("button");
+    addBasket.textContent = `\u{412} \u{43A}\u{43E}\u{440}\u{437}\u{438}\u{43D}\u{443}`;
+    addBasket.classList.add("btn");
+    item.append(productTitle, productPrice, addBasket);
+    return item;
+}
+
+},{"@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3","/src/js/main.js":"1SICI"}]},["7FumU"], null, "parcelRequirede3a")
 
 //# sourceMappingURL=main.00ff3c8c.js.map

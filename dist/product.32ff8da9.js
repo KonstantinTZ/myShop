@@ -579,8 +579,8 @@ var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
 // стр товара
 parcelHelpers.export(exports, "getProductPage", ()=>getProductPage);
-var _mainTitleJs = require("../components/mainTitle.js");
-var _descJs = require("../components/desc.js");
+var _mainTitleJs = require("/src/js/components/mainTitle.js");
+var _descJs = require("/src/js/components/desc.js");
 function getProductPage(title) {
     const page = document.createElement("div");
     page.classList.add("page", "product-page", "container");
@@ -591,6 +591,30 @@ function getProductPage(title) {
     return page;
 }
 
-},{"../components/mainTitle.js":"1BNwr","../components/desc.js":"7kCFx","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}]},["cvES0"], null, "parcelRequirede3a")
+},{"@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3","/src/js/components/mainTitle.js":"1BNwr","/src/js/components/desc.js":"7kCFx"}],"1BNwr":[function(require,module,exports) {
+// create main title
+var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
+parcelHelpers.defineInteropFlag(exports);
+parcelHelpers.export(exports, "getMainTitle", ()=>getMainTitle);
+function getMainTitle(text) {
+    const title = document.createElement("h1");
+    title.textContent = text;
+    title.classList.add("main-title");
+    return title;
+}
+
+},{"@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"7kCFx":[function(require,module,exports) {
+// create description
+var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
+parcelHelpers.defineInteropFlag(exports);
+parcelHelpers.export(exports, "getDescr", ()=>getDescr);
+function getDescr(text) {
+    const desc = document.createElement("p");
+    desc.textContent = text;
+    desc.classList.add("desc");
+    return desc;
+}
+
+},{"@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}]},["cvES0"], null, "parcelRequirede3a")
 
 //# sourceMappingURL=product.32ff8da9.js.map

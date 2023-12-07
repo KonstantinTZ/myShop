@@ -1,4 +1,4 @@
-import { router } from "../main.js";
+import { router } from "/src/js/main.js";
 // создаем шапку
 export function getHeader() {
     const header = document.createElement('header');
@@ -12,7 +12,7 @@ export function getHeader() {
     nav.classList.add('navigation')
 
     let link1 = document.createElement('a');
-    link1.href = '#'
+    link1.href = '/'
     link1.classList.add('btn')
     link1.textContent = 'Главная страница'
 
@@ -23,7 +23,7 @@ export function getHeader() {
     })
 
     let link2 = document.createElement('a');
-    link2.href = '#'
+    link2.href = '/catalog'
     link2.classList.add('btn')
     link2.textContent = 'Каталог'
 
@@ -33,7 +33,7 @@ export function getHeader() {
     })
 
     let link3 = document.createElement('a');
-    link3.href = '#'
+    link3.href = '/basket'
     link3.classList.add('btn')
     link3.textContent = 'Корзина'
 

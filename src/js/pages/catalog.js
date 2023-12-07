@@ -1,5 +1,5 @@
-import { getMainTitle } from "../components/mainTitle.js"
-import { getDescr } from "../components/desc.js"
+import { getMainTitle } from "/src/js/components/mainTitle.js"
+import { getDescr } from "/src/js/components/desc.js"
 
 // стр католога
 export function getCatalogPage() {

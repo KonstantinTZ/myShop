@@ -1,5 +1,6 @@
-import { getMainTitle } from "../components/mainTitle.js"
-import { getDescr } from "../components/desc.js"
+import { getMainTitle } from "/src/js/components/mainTitle.js"
+import { getDescr } from "/src/js/components/desc.js"
+import { router } from "/src/js/main"
 
 // стр корзины
 export function getBasketPage() {
@@ -8,6 +9,17 @@ export function getBasketPage() {
     const mainTitle = getMainTitle('Корзиниа')
     const desc = getDescr('Страница в разработке')
 
-    page.append(mainTitle, desc)
+    // кнопка оформления заказа
+    let linkBtn = document.createElement('a');
+    linkBtn.href ='/order' // просто дублируем из роутера.навигате
+    linkBtn.classList.add('btn')
+    linkBtn.textContent = 'Оформление заказа'
+
+    linkBtn.addEventListener('click', function (event) {
+        event.preventDefault();
+        router.navigate('/order')
+    })
+
+    page.append(mainTitle, desc, linkBtn)
     return page;
 }

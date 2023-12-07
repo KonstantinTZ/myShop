@@ -1,4 +1,4 @@
-import { router } from "../main.js";
+import { router } from "/src/js/main.js";
 // карточка товара
 export function getProductCard(title, price) {
     const item = document.createElement('li');
