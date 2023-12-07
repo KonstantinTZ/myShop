@@ -61,24 +61,8 @@ html {
   }
   
   
-  /* Шапка */
-  .header{
-    padding: 10px 0;
-    background-color: white;
-    margin-bottom: 20px;
-  }
   
-  /* Навигация */
-  .navigation{
-    display: flex;
-    align-items: center;
-    gap: 20px;
-  }
   
-  /* Контейнер для страниц */
-  .page-container {
-    background-color: white;
-  }
   
   /* Страница */
   .page{
@@ -86,17 +70,8 @@ html {
     padding: 20px;
   }
   
-  /* Главный заголовок */
-  .main-title{
-    margin-top: 0;
-    margin-bottom: 20px;
-  }
-  
-  /* Описание */
-  .desc {
-    margin-top: 0;
-    margin-bottom: 0;
-  }
+
+ 
   
   /* Список товаров */
   .product-list {
@@ -105,21 +80,3 @@ html {
     gap: 20px;
   }
   
-  /* Карточка товара */
-  .product-list__item {
-    display: flex;
-    flex-direction: column;
-    border: 2px solid rgb(184, 184, 184);
-    padding: 20px;
-  }
-  
-  .product-list__title{
-    margin-top: 0;
-    font-size: 26px;
-    margin-bottom: 15px;
-  }
-  
-  .product-list__price{
-    font-size: 21px;
-    margin-bottom: 15px;
-  }

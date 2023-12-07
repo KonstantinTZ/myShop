@@ -1,0 +1,24 @@
+.main-title {
+  margin-top: 0;
+  margin-bottom: 20px;
+}
+
+.product-list__item {
+  border: 2px solid #b8b8b8;
+  flex-direction: column;
+  padding: 20px;
+  display: flex;
+}
+
+.product-list__title {
+  margin-top: 0;
+  margin-bottom: 15px;
+  font-size: 26px;
+}
+
+.product-list__price {
+  margin-bottom: 15px;
+  font-size: 21px;
+}
+
+/*# sourceMappingURL=main.e1fccb57.css.map */

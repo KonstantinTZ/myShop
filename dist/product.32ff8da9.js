@@ -579,8 +579,8 @@ var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
 // стр товара
 parcelHelpers.export(exports, "getProductPage", ()=>getProductPage);
-var _mainTitleJs = require("/src/js/components/mainTitle.js");
-var _descJs = require("/src/js/components/desc.js");
+var _mainTitleJs = require("/src/js/components/mainTitle/mainTitle.js");
+var _descJs = require("/src/js/components/desc/desc.js");
 function getProductPage(title) {
     const page = document.createElement("div");
     page.classList.add("page", "product-page", "container");
@@ -591,23 +591,12 @@ function getProductPage(title) {
     return page;
 }
 
-},{"@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3","/src/js/components/mainTitle.js":"1BNwr","/src/js/components/desc.js":"7kCFx"}],"1BNwr":[function(require,module,exports) {
-// create main title
+},{"@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3","/src/js/components/desc/desc.js":"2aBBT","/src/js/components/mainTitle/mainTitle.js":"ki5if"}],"2aBBT":[function(require,module,exports) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
-parcelHelpers.export(exports, "getMainTitle", ()=>getMainTitle);
-function getMainTitle(text) {
-    const title = document.createElement("h1");
-    title.textContent = text;
-    title.classList.add("main-title");
-    return title;
-}
-
-},{"@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"7kCFx":[function(require,module,exports) {
 // create description
-var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
-parcelHelpers.defineInteropFlag(exports);
 parcelHelpers.export(exports, "getDescr", ()=>getDescr);
+var _descCss = require("./desc.css");
 function getDescr(text) {
     const desc = document.createElement("p");
     desc.textContent = text;
@@ -615,6 +604,19 @@ function getDescr(text) {
     return desc;
 }
 
-},{"@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}]},["cvES0"], null, "parcelRequirede3a")
+},{"./desc.css":"kfYoF","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"kfYoF":[function() {},{}],"ki5if":[function(require,module,exports) {
+var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
+parcelHelpers.defineInteropFlag(exports);
+// create main title
+parcelHelpers.export(exports, "getMainTitle", ()=>getMainTitle);
+var _mainTitleCss = require("./mainTitle.css");
+function getMainTitle(text) {
+    const title = document.createElement("h1");
+    title.textContent = text;
+    title.classList.add("main-title");
+    return title;
+}
+
+},{"@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3","./mainTitle.css":"8xezA"}],"8xezA":[function() {},{}]},["cvES0"], null, "parcelRequirede3a")
 
 //# sourceMappingURL=product.32ff8da9.js.map

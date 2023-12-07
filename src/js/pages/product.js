@@ -1,5 +1,5 @@
-import { getMainTitle } from "/src/js/components/mainTitle.js"
-import { getDescr } from "/src/js/components/desc.js"
+import { getMainTitle } from "/src/js/components/mainTitle/mainTitle.js"
+import { getDescr } from "/src/js/components/desc/desc.js"
 // стр товара
 export function getProductPage(title) { // title - приходит из main.js из роутера {data}
     const page = document.createElement('div')

@@ -579,7 +579,7 @@ var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
 // стр католога
 parcelHelpers.export(exports, "getNotFoundPage", ()=>getNotFoundPage);
-var _mainTitleJs = require("/src/js/components/mainTitle.js");
+var _mainTitleJs = require("/src/js/components/mainTitle/mainTitle.js");
 var _main = require("/src/js/main");
 function getNotFoundPage() {
     const page = document.createElement("div");
@@ -599,11 +599,12 @@ function getNotFoundPage() {
     return page;
 }
 
-},{"/src/js/components/mainTitle.js":"1BNwr","/src/js/main":"1SICI","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"1BNwr":[function(require,module,exports) {
-// create main title
+},{"/src/js/main":"1SICI","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3","/src/js/components/mainTitle/mainTitle.js":"ki5if"}],"ki5if":[function(require,module,exports) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
+// create main title
 parcelHelpers.export(exports, "getMainTitle", ()=>getMainTitle);
+var _mainTitleCss = require("./mainTitle.css");
 function getMainTitle(text) {
     const title = document.createElement("h1");
     title.textContent = text;
@@ -611,6 +612,6 @@ function getMainTitle(text) {
     return title;
 }
 
-},{"@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}]},["gs3p6"], null, "parcelRequirede3a")
+},{"@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3","./mainTitle.css":"8xezA"}],"8xezA":[function() {},{}]},["gs3p6"], null, "parcelRequirede3a")
 
 //# sourceMappingURL=notFound.4f16eca9.js.map
