@@ -1,13 +1,20 @@
 /* Шапка */
 .header{
-    padding: 10px 0;
     background-color: white;
     margin-bottom: 20px;
   }
+
+.header__container {
+  display: flex;
+  justify-content: space-between;
+}
   
   /* Навигация */
-  .navigation{
+  .header__navigation{
     display: flex;
-    align-items: center;
-    gap: 20px;
+
+  }
+
+  .header__logo{
+    align-self: center;
   }

@@ -60,18 +60,11 @@ html {
     outline-color: rgb(0, 85, 255);
   }
   
-  
-  
-  
-  
   /* Страница */
   .page{
     background-color: white;
     padding: 20px;
   }
-  
-
- 
   
   /* Список товаров */
   .product-list {

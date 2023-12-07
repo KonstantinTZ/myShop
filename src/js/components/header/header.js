@@ -1,5 +1,11 @@
 import { router } from "/src/js/main.js";
+import {getNavigationLink} from "/src/js/components/navigationLink/navigationLink.js";
 import './header.css' // для того что бы стили хранились в этой же папке и применились тут же
+import { getLogo } from "/src/js/components/logo/logo";
+import { getBasketBtn } from "/src/js/components/basketBtn/basketBtn";
+
+
+
 // создаем шапку
 export function getHeader() {
     const header = document.createElement('header');
@@ -10,43 +16,50 @@ export function getHeader() {
 
 
     const nav = document.createElement('nav');
-    nav.classList.add('navigation')
+    nav.classList.add('header__navigation')
 
-    let link1 = document.createElement('a');
-    link1.href = '/'
-    link1.classList.add('btn')
-    link1.textContent = 'Главная страница'
+    const logo = getLogo();
+    logo.classList.add('header__logo') // что бы стилизовать его именно в хедере(в общих css logo этого не указываем)
 
-    link1.addEventListener('click', function (event) {
-        event.preventDefault();
-        // navigation() // теперь нам не нужен , т.к. есть отдельный роутер для этого
-        router.navigate('/')
-    })
+    const basketBtn = getBasketBtn();
 
-    let link2 = document.createElement('a');
-    link2.href = '/catalog'
-    link2.classList.add('btn')
-    link2.textContent = 'Каталог'
+    // все что ниже нужно для того что бы подсветить активную кнопку страницы в хедере
+    const linksObj =  {
+        'mainPage':getNavigationLink('/', 'Главная страница'),
+        'catalog': getNavigationLink('/catalog', 'Каталог'),
+        'basket': basketBtn // т.к. мы ее уже вставили
+        // если захочу добавить еще страницу, то сюда вставить 'newPage':getNavigationLink('/newPage', 'новая страница')+ добавить ее в роутере на main.js
+    }
 
-    link2.addEventListener('click', function (event) {
-        event.preventDefault();
-        router.navigate('/catalog')
-    })
+    for (const oneLink in linksObj) {
+        nav.append(linksObj[oneLink])
+    }
 
-    let link3 = document.createElement('a');
-    link3.href = '/basket'
-    link3.classList.add('btn')
-    link3.textContent = 'Корзина'
+    // циклом in мы аолучаем только ключ
+    // linksObj[link] - а так получаем значение по названию ключа
+    // и собственно отрисовываем на странице
+ 
+    function setActiveLink (link='') {
+        // значение link присваиваем в файле main.js в роутере
+        
+        for (const oneLink in linksObj) {
+            linksObj[oneLink].classList.remove('active')
+        }
 
-    link3.addEventListener('click', function (event) {
-        event.preventDefault();
-        router.navigate('/basket')
-    })
+        if (link !== '') {
+            linksObj[link].classList.add('active')
+        }
+    }
 
-    nav.append(link1, link2, link3)
-    container.append(nav)
+     // все что выше нужно для того что бы подсветить активную страницу ^
+
+    
+    container.append(logo, nav, basketBtn)
     header.append(container)
 
 
-    return header
+    return {
+        header,
+        setActiveLink
+    }
 }

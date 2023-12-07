@@ -12,7 +12,7 @@ const app = document.getElementById('app')
 // из документации к библиотеке роутера navigo
 export const router = new Navigo('/'); // export const router что бы можно было использовать в других модулях
 
-const header = getHeader()
+const header = getHeader() // вот здесь теперь возвращается объект {header,setActiveLink}
 const pageContainer = getPageContainer()
 
 // стр главная
@@ -21,6 +21,7 @@ router.on('/', async () => {
     const pageModuleMain = await import("/src/js/pages/main.js") // динамический импорт // да файл называется main, но он относится к главной странице(первой)
     const mainPage = pageModuleMain.getMainPage()
     pageContainer.append(mainPage)
+    header.setActiveLink('mainPage') // вызываем функцию из header.js
 })
 
 // стр католога
@@ -30,6 +31,7 @@ router.on('/catalog', async () => {
     const catalogPage = pageModuleCatalog.getCatalogPage()
     // pageModuleCatalog.getCatalogPage() - т.к. из импорта приходит объект, а .getCatalogPage() - это ключ
     pageContainer.append(catalogPage)
+    header.setActiveLink('catalog') // вызываем функцию из header.js
 })
 
 // стр продукта
@@ -38,6 +40,7 @@ router.on('/product/:title', async ({data}) => { //:title -но вообще п�
     const pageModuleProduct = await import("/src/js/pages/product.js") // динамический импорт
     const productPage = pageModuleProduct.getProductPage(data.title);
     pageContainer.append(productPage)
+    header.setActiveLink()
 })
 
 // стр корзины
@@ -46,6 +49,7 @@ router.on('/basket', async () => {
     const pageModuleBasket = await import("/src/js/pages/basket.js") // динамический импорт
     const basketPage = pageModuleBasket.getBasketPage()
     pageContainer.append(basketPage)
+    header.setActiveLink('basket') // вызываем функцию из header.js
 })
 
 // стр оформление
@@ -60,6 +64,7 @@ router.on('/order', async () => {
     const pageModuleOrder = await import("/src/js/pages/order.js") // динамический импорт
     const orderPage = pageModuleOrder.getOrderPage()
     pageContainer.append(orderPage)
+    header.setActiveLink()
 })
 
 //стр не найдена
@@ -68,9 +73,10 @@ router.notFound(async () => {
     const pageModuleNotFound = await import("/src/js/pages/notFound.js") // динамический импорт // да файл называется main, но он относится к главной странице(первой)
     const notFoundPage = pageModuleNotFound.getNotFoundPage()
     pageContainer.append(notFoundPage)
+    header.setActiveLink()
 })
 
 
 router.resolve();
 
-app.append(header, pageContainer)
+app.append(header.header, pageContainer) // header.header т.к. header = getHeader() возвращается объект

@@ -586,7 +586,8 @@ var _headerJs = require("/src/js/components/header/header.js");
 var _pageContainerJs = require("/src/js/components/pageContainer/pageContainer.js");
 const app = document.getElementById("app");
 const router = new (0, _navigoDefault.default)("/"); // export const router что бы можно было использовать в других модулях
-const header = (0, _headerJs.getHeader)();
+const header = (0, _headerJs.getHeader)() // вот здесь теперь возвращается объект {header,setActiveLink}
+;
 const pageContainer = (0, _pageContainerJs.getPageContainer)();
 // стр главная
 router.on("/", async ()=>{
@@ -595,6 +596,8 @@ router.on("/", async ()=>{
     ;
     const mainPage = pageModuleMain.getMainPage();
     pageContainer.append(mainPage);
+    header.setActiveLink("mainPage") // вызываем функцию из header.js
+    ;
 });
 // стр католога
 router.on("/catalog", async ()=>{
@@ -604,6 +607,8 @@ router.on("/catalog", async ()=>{
     const catalogPage = pageModuleCatalog.getCatalogPage();
     // pageModuleCatalog.getCatalogPage() - т.к. из импорта приходит объект, а .getCatalogPage() - это ключ
     pageContainer.append(catalogPage);
+    header.setActiveLink("catalog") // вызываем функцию из header.js
+    ;
 });
 // стр продукта
 router.on("/product/:title", async ({ data })=>{
@@ -612,6 +617,7 @@ router.on("/product/:title", async ({ data })=>{
     ;
     const productPage = pageModuleProduct.getProductPage(data.title);
     pageContainer.append(productPage);
+    header.setActiveLink();
 });
 // стр корзины
 router.on("/basket", async ()=>{
@@ -620,6 +626,8 @@ router.on("/basket", async ()=>{
     ;
     const basketPage = pageModuleBasket.getBasketPage();
     pageContainer.append(basketPage);
+    header.setActiveLink("basket") // вызываем функцию из header.js
+    ;
 });
 // стр оформление
 router.on("/order", async ()=>{
@@ -631,6 +639,7 @@ router.on("/order", async ()=>{
     ;
     const orderPage = pageModuleOrder.getOrderPage();
     pageContainer.append(orderPage);
+    header.setActiveLink();
 });
 //стр не найдена
 router.notFound(async ()=>{
@@ -639,11 +648,13 @@ router.notFound(async ()=>{
     ;
     const notFoundPage = pageModuleNotFound.getNotFoundPage();
     pageContainer.append(notFoundPage);
+    header.setActiveLink();
 });
 router.resolve();
-app.append(header, pageContainer);
+app.append(header.header, pageContainer) // header.header т.к. header = getHeader() возвращается объект
+;
 
-},{"navigo":"fuSlc","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3","76e43f5098be4a51":"lLZeO","c7fcb629e5c1095b":"3oJzI","dd26f383febd9266":"fIzv3","17e44ed2f03d434c":"2jR4E","f5ba9bb331db9114":"iKF1U","f1ed06dc22f0a59b":"tANSs","/src/js/components/header/header.js":"k3piG","/src/js/components/pageContainer/pageContainer.js":"ht0nH"}],"fuSlc":[function(require,module,exports) {
+},{"navigo":"fuSlc","/src/js/components/header/header.js":"k3piG","/src/js/components/pageContainer/pageContainer.js":"ht0nH","76e43f5098be4a51":"lLZeO","c7fcb629e5c1095b":"3oJzI","17e44ed2f03d434c":"2jR4E","dd26f383febd9266":"fIzv3","f5ba9bb331db9114":"iKF1U","f1ed06dc22f0a59b":"tANSs","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"fuSlc":[function(require,module,exports) {
 !function(t, n) {
     module.exports = n();
 }("undefined" != typeof self ? self : this, function() {
@@ -1162,7 +1173,71 @@ app.append(header, pageContainer);
     }().default;
 });
 
-},{}],"gkKU3":[function(require,module,exports) {
+},{}],"k3piG":[function(require,module,exports) {
+var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
+parcelHelpers.defineInteropFlag(exports);
+// создаем шапку
+parcelHelpers.export(exports, "getHeader", ()=>getHeader);
+var _mainJs = require("/src/js/main.js");
+var _navigationLinkJs = require("/src/js/components/navigationLink/navigationLink.js");
+var _headerCss = require("./header.css"); // для того что бы стили хранились в этой же папке и применились тут же
+var _logo = require("/src/js/components/logo/logo");
+var _basketBtn = require("/src/js/components/basketBtn/basketBtn");
+function getHeader() {
+    const header = document.createElement("header");
+    header.classList.add("header");
+    const container = document.createElement("div");
+    container.classList.add("container", "header__container");
+    const nav = document.createElement("nav");
+    nav.classList.add("header__navigation");
+    const logo = (0, _logo.getLogo)();
+    logo.classList.add("header__logo") // что бы стилизовать его именно в хедере(в общих css logo этого не указываем)
+    ;
+    const basketBtn = (0, _basketBtn.getBasketBtn)();
+    // все что ниже нужно для того что бы подсветить активную кнопку страницы в хедере
+    const linksObj = {
+        "mainPage": (0, _navigationLinkJs.getNavigationLink)("/", "\u0413\u043B\u0430\u0432\u043D\u0430\u044F \u0441\u0442\u0440\u0430\u043D\u0438\u0446\u0430"),
+        "catalog": (0, _navigationLinkJs.getNavigationLink)("/catalog", "\u041A\u0430\u0442\u0430\u043B\u043E\u0433"),
+        "basket": basketBtn // т.к. мы ее уже вставили
+    };
+    for(const oneLink in linksObj)nav.append(linksObj[oneLink]);
+    // циклом in мы аолучаем только ключ
+    // linksObj[link] - а так получаем значение по названию ключа
+    // и собственно отрисовываем на странице
+    function setActiveLink(link = "") {
+        // значение link присваиваем в файле main.js в роутере
+        for(const oneLink in linksObj)linksObj[oneLink].classList.remove("active");
+        if (link !== "") linksObj[link].classList.add("active");
+    }
+    // все что выше нужно для того что бы подсветить активную страницу ^
+    container.append(logo, nav, basketBtn);
+    header.append(container);
+    return {
+        header,
+        setActiveLink
+    };
+}
+
+},{"/src/js/main.js":"1SICI","/src/js/components/navigationLink/navigationLink.js":"9DXZC","./header.css":"39x7f","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3","/src/js/components/logo/logo":"3UqdW","/src/js/components/basketBtn/basketBtn":"fnQNK"}],"9DXZC":[function(require,module,exports) {
+var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
+parcelHelpers.defineInteropFlag(exports);
+parcelHelpers.export(exports, "getNavigationLink", ()=>getNavigationLink);
+var _mainJs = require("/src/js/main.js");
+var _navigationLinkCss = require("./navigationLink.css");
+function getNavigationLink(path, title = "") {
+    let link = document.createElement("a");
+    link.href = path;
+    link.classList.add("navigation-link");
+    link.textContent = title;
+    link.addEventListener("click", function(event) {
+        event.preventDefault();
+        // navigation() // теперь нам не нужен , т.к. есть отдельный роутер для этого
+        (0, _mainJs.router).navigate(path);
+    });
+    return link;
+}
+
+},{"/src/js/main.js":"1SICI","./navigationLink.css":"arnVZ","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"arnVZ":[function() {},{}],"gkKU3":[function(require,module,exports) {
 exports.interopDefault = function(a) {
     return a && a.__esModule ? a : {
         default: a
@@ -1192,7 +1267,94 @@ exports.export = function(dest, destName, get) {
     });
 };
 
-},{}],"lLZeO":[function(require,module,exports) {
+},{}],"39x7f":[function() {},{}],"3UqdW":[function(require,module,exports) {
+var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
+parcelHelpers.defineInteropFlag(exports);
+// create logo
+parcelHelpers.export(exports, "getLogo", ()=>getLogo);
+var _logoCss = require("./logo.css");
+var _logoSvg = require("/src/assets/img/logo.svg");
+var _logoSvgDefault = parcelHelpers.interopDefault(_logoSvg);
+function getLogo() {
+    const logo = document.createElement("img");
+    logo.classList.add("logo");
+    logo.src = (0, _logoSvgDefault.default);
+    return logo;
+}
+
+},{"./logo.css":"fgPjk","/src/assets/img/logo.svg":"1diId","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"fgPjk":[function() {},{}],"1diId":[function(require,module,exports) {
+module.exports = require("5b3aa14cd0d9bc14").getBundleURL("10Mjw") + "logo.e1e57082.svg" + "?" + Date.now();
+
+},{"5b3aa14cd0d9bc14":"lgJ39"}],"lgJ39":[function(require,module,exports) {
+"use strict";
+var bundleURL = {};
+function getBundleURLCached(id) {
+    var value = bundleURL[id];
+    if (!value) {
+        value = getBundleURL();
+        bundleURL[id] = value;
+    }
+    return value;
+}
+function getBundleURL() {
+    try {
+        throw new Error();
+    } catch (err) {
+        var matches = ("" + err.stack).match(/(https?|file|ftp|(chrome|moz|safari-web)-extension):\/\/[^)\n]+/g);
+        if (matches) // The first two stack frames will be this function and getBundleURLCached.
+        // Use the 3rd one, which will be a runtime in the original bundle.
+        return getBaseURL(matches[2]);
+    }
+    return "/";
+}
+function getBaseURL(url) {
+    return ("" + url).replace(/^((?:https?|file|ftp|(chrome|moz|safari-web)-extension):\/\/.+)\/[^/]+$/, "$1") + "/";
+}
+// TODO: Replace uses with `new URL(url).origin` when ie11 is no longer supported.
+function getOrigin(url) {
+    var matches = ("" + url).match(/(https?|file|ftp|(chrome|moz|safari-web)-extension):\/\/[^/]+/);
+    if (!matches) throw new Error("Origin not found");
+    return matches[0];
+}
+exports.getBundleURL = getBundleURLCached;
+exports.getBaseURL = getBaseURL;
+exports.getOrigin = getOrigin;
+
+},{}],"fnQNK":[function(require,module,exports) {
+var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
+parcelHelpers.defineInteropFlag(exports);
+parcelHelpers.export(exports, "getBasketBtn", ()=>getBasketBtn);
+var _basketBtnCss = require("./basketBtn.css");
+var _basketSvg = require("bundle-text:/src/assets/img/basket.svg"); //bundle-text: - лайфхак с ПАРСЕЛЕМ, что бы вставлялся свг, а не просто путь
+var _basketSvgDefault = parcelHelpers.interopDefault(_basketSvg);
+var _mainJs = require("/src/js/main.js");
+function getBasketBtn() {
+    const basketBtn = document.createElement("a");
+    basketBtn.classList.add("basket-btn");
+    basketBtn.href = "/basket";
+    basketBtn.innerHTML = (0, _basketSvgDefault.default);
+    basketBtn.addEventListener("click", function(event) {
+        event.preventDefault();
+        (0, _mainJs.router).navigate("/basket");
+    });
+    return basketBtn;
+}
+
+},{"./basketBtn.css":"c11TG","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3","bundle-text:/src/assets/img/basket.svg":"6V9LR","/src/js/main.js":"1SICI"}],"c11TG":[function() {},{}],"6V9LR":[function(require,module,exports) {
+module.exports = "<svg fill=\"#f98800\" width=\"800px\" height=\"800px\" viewBox=\"0 0 24 24\" xmlns=\"http://www.w3.org/2000/svg\"><path d=\"M8.132 2.504 4.42 9H3a1.001 1.001 0 0 0-.965 1.263l2.799 10.263A2.004 2.004 0 0 0 6.764 22h10.473c.898 0 1.692-.605 1.93-1.475l2.799-10.263A.998.998 0 0 0 21 9h-1.42l-3.712-6.496-1.736.992L17.277 9H6.723l3.145-5.504-1.736-.992zM14 13h2v5h-2v-5zm-6 0h2v5H8v-5z\"></path></svg>";
+
+},{}],"ht0nH":[function(require,module,exports) {
+// контейнер для страниц
+var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
+parcelHelpers.defineInteropFlag(exports);
+parcelHelpers.export(exports, "getPageContainer", ()=>getPageContainer);
+function getPageContainer() {
+    const main = document.createElement("main");
+    main.classList.add("page-container");
+    return main;
+}
+
+},{"@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"lLZeO":[function(require,module,exports) {
 module.exports = Promise.all([
     require("fe2858a6d78434c2")(require("70e8eed2b337ce05").getBundleURL("10Mjw") + "main.e1fccb57.css" + "?" + Date.now()).catch((err)=>{
         delete module.bundle.cache[module.id];
@@ -1259,41 +1421,6 @@ module.exports = function(loader, type) {
     };
 };
 
-},{}],"lgJ39":[function(require,module,exports) {
-"use strict";
-var bundleURL = {};
-function getBundleURLCached(id) {
-    var value = bundleURL[id];
-    if (!value) {
-        value = getBundleURL();
-        bundleURL[id] = value;
-    }
-    return value;
-}
-function getBundleURL() {
-    try {
-        throw new Error();
-    } catch (err) {
-        var matches = ("" + err.stack).match(/(https?|file|ftp|(chrome|moz|safari-web)-extension):\/\/[^)\n]+/g);
-        if (matches) // The first two stack frames will be this function and getBundleURLCached.
-        // Use the 3rd one, which will be a runtime in the original bundle.
-        return getBaseURL(matches[2]);
-    }
-    return "/";
-}
-function getBaseURL(url) {
-    return ("" + url).replace(/^((?:https?|file|ftp|(chrome|moz|safari-web)-extension):\/\/.+)\/[^/]+$/, "$1") + "/";
-}
-// TODO: Replace uses with `new URL(url).origin` when ie11 is no longer supported.
-function getOrigin(url) {
-    var matches = ("" + url).match(/(https?|file|ftp|(chrome|moz|safari-web)-extension):\/\/[^/]+/);
-    if (!matches) throw new Error("Origin not found");
-    return matches[0];
-}
-exports.getBundleURL = getBundleURLCached;
-exports.getBaseURL = getBaseURL;
-exports.getOrigin = getOrigin;
-
 },{}],"61B45":[function(require,module,exports) {
 "use strict";
 var cacheLoader = require("ca2a84f7fa4a3bb0");
@@ -1346,23 +1473,7 @@ module.exports = Promise.all([
     })
 ]).then(()=>module.bundle.root("enWwp"));
 
-},{"4c3ddd6b30eeb7db":"1MWPE","a2cfdb98577b865e":"lgJ39","9414172c6c5d0e9f":"61B45"}],"fIzv3":[function(require,module,exports) {
-module.exports = Promise.all([
-    require("ecc4748c9370a28a")(require("d80402a5d1ee1d33").getBundleURL("10Mjw") + "catalog.f4c009d0.css" + "?" + Date.now()).catch((err)=>{
-        delete module.bundle.cache[module.id];
-        throw err;
-    }),
-    require("ecc4748c9370a28a")(require("d80402a5d1ee1d33").getBundleURL("10Mjw") + "main.e1fccb57.css" + "?" + Date.now()).catch((err)=>{
-        delete module.bundle.cache[module.id];
-        throw err;
-    }),
-    require("1fcfcfee4f6c7a22")(require("d80402a5d1ee1d33").getBundleURL("10Mjw") + "basket.690031ab.js" + "?" + Date.now()).catch((err)=>{
-        delete module.bundle.cache[module.id];
-        throw err;
-    })
-]).then(()=>module.bundle.root("ai5BV"));
-
-},{"ecc4748c9370a28a":"1MWPE","d80402a5d1ee1d33":"lgJ39","1fcfcfee4f6c7a22":"61B45"}],"2jR4E":[function(require,module,exports) {
+},{"4c3ddd6b30eeb7db":"1MWPE","a2cfdb98577b865e":"lgJ39","9414172c6c5d0e9f":"61B45"}],"2jR4E":[function(require,module,exports) {
 module.exports = Promise.all([
     require("d7fb3e997b34ca32")(require("9502ac084bafb88b").getBundleURL("10Mjw") + "catalog.f4c009d0.css" + "?" + Date.now()).catch((err)=>{
         delete module.bundle.cache[module.id];
@@ -1378,7 +1489,23 @@ module.exports = Promise.all([
     })
 ]).then(()=>module.bundle.root("ajSHU"));
 
-},{"d7fb3e997b34ca32":"1MWPE","9502ac084bafb88b":"lgJ39","e3292d49b3996f84":"61B45"}],"iKF1U":[function(require,module,exports) {
+},{"d7fb3e997b34ca32":"1MWPE","9502ac084bafb88b":"lgJ39","e3292d49b3996f84":"61B45"}],"fIzv3":[function(require,module,exports) {
+module.exports = Promise.all([
+    require("ecc4748c9370a28a")(require("d80402a5d1ee1d33").getBundleURL("10Mjw") + "catalog.f4c009d0.css" + "?" + Date.now()).catch((err)=>{
+        delete module.bundle.cache[module.id];
+        throw err;
+    }),
+    require("ecc4748c9370a28a")(require("d80402a5d1ee1d33").getBundleURL("10Mjw") + "main.e1fccb57.css" + "?" + Date.now()).catch((err)=>{
+        delete module.bundle.cache[module.id];
+        throw err;
+    }),
+    require("1fcfcfee4f6c7a22")(require("d80402a5d1ee1d33").getBundleURL("10Mjw") + "basket.690031ab.js" + "?" + Date.now()).catch((err)=>{
+        delete module.bundle.cache[module.id];
+        throw err;
+    })
+]).then(()=>module.bundle.root("ai5BV"));
+
+},{"ecc4748c9370a28a":"1MWPE","d80402a5d1ee1d33":"lgJ39","1fcfcfee4f6c7a22":"61B45"}],"iKF1U":[function(require,module,exports) {
 module.exports = Promise.all([
     require("15c6b80252e630d2")(require("d74b8e6fcd361b1d").getBundleURL("10Mjw") + "catalog.f4c009d0.css" + "?" + Date.now()).catch((err)=>{
         delete module.bundle.cache[module.id];
@@ -1406,62 +1533,6 @@ module.exports = Promise.all([
     })
 ]).then(()=>module.bundle.root("eTtiY"));
 
-},{"552b7a2fe2266b8c":"1MWPE","19c196ca000b64e4":"lgJ39","fc431f2347a6685f":"61B45"}],"k3piG":[function(require,module,exports) {
-var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
-parcelHelpers.defineInteropFlag(exports);
-// создаем шапку
-parcelHelpers.export(exports, "getHeader", ()=>getHeader);
-var _mainJs = require("/src/js/main.js");
-var _headerCss = require("./header.css"); // для того что бы стили хранились в этой же папке и применились тут же
-function getHeader() {
-    const header = document.createElement("header");
-    header.classList.add("header");
-    const container = document.createElement("div");
-    container.classList.add("container", "header__container");
-    const nav = document.createElement("nav");
-    nav.classList.add("navigation");
-    let link1 = document.createElement("a");
-    link1.href = "/";
-    link1.classList.add("btn");
-    link1.textContent = "\u0413\u043B\u0430\u0432\u043D\u0430\u044F \u0441\u0442\u0440\u0430\u043D\u0438\u0446\u0430";
-    link1.addEventListener("click", function(event) {
-        event.preventDefault();
-        // navigation() // теперь нам не нужен , т.к. есть отдельный роутер для этого
-        (0, _mainJs.router).navigate("/");
-    });
-    let link2 = document.createElement("a");
-    link2.href = "/catalog";
-    link2.classList.add("btn");
-    link2.textContent = "\u041A\u0430\u0442\u0430\u043B\u043E\u0433";
-    link2.addEventListener("click", function(event) {
-        event.preventDefault();
-        (0, _mainJs.router).navigate("/catalog");
-    });
-    let link3 = document.createElement("a");
-    link3.href = "/basket";
-    link3.classList.add("btn");
-    link3.textContent = "\u041A\u043E\u0440\u0437\u0438\u043D\u0430";
-    link3.addEventListener("click", function(event) {
-        event.preventDefault();
-        (0, _mainJs.router).navigate("/basket");
-    });
-    nav.append(link1, link2, link3);
-    container.append(nav);
-    header.append(container);
-    return header;
-}
-
-},{"/src/js/main.js":"1SICI","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3","./header.css":"39x7f"}],"39x7f":[function() {},{}],"ht0nH":[function(require,module,exports) {
-// контейнер для страниц
-var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
-parcelHelpers.defineInteropFlag(exports);
-parcelHelpers.export(exports, "getPageContainer", ()=>getPageContainer);
-function getPageContainer() {
-    const main = document.createElement("main");
-    main.classList.add("page-container");
-    return main;
-}
-
-},{"@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}]},["46McK","1SICI"], "1SICI", "parcelRequirede3a")
+},{"552b7a2fe2266b8c":"1MWPE","19c196ca000b64e4":"lgJ39","fc431f2347a6685f":"61B45"}]},["46McK","1SICI"], "1SICI", "parcelRequirede3a")
 
 //# sourceMappingURL=index.18dbc454.js.map

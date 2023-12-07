@@ -592,7 +592,7 @@ function getMainPage() {
     return page;
 }
 
-},{"@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3","/src/js/components/mainTitle/mainTitle.js":"ki5if","/src/js/components/productCard/productCard.js":"9WzTu"}],"ki5if":[function(require,module,exports) {
+},{"/src/js/components/mainTitle/mainTitle.js":"ki5if","/src/js/components/productCard/productCard.js":"9WzTu","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"ki5if":[function(require,module,exports) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
 // create main title
@@ -605,7 +605,7 @@ function getMainTitle(text) {
     return title;
 }
 
-},{"@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3","./mainTitle.css":"8xezA"}],"8xezA":[function() {},{}],"9WzTu":[function(require,module,exports) {
+},{"./mainTitle.css":"8xezA","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"8xezA":[function() {},{}],"9WzTu":[function(require,module,exports) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
 // карточка товара
@@ -635,6 +635,6 @@ function getProductCard(title, price) {
     return item;
 }
 
-},{"/src/js/main.js":"1SICI","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3","./productCard.css":"8FtH3"}],"8FtH3":[function() {},{}]},["7FumU"], null, "parcelRequirede3a")
+},{"/src/js/main.js":"1SICI","./productCard.css":"8FtH3","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"8FtH3":[function() {},{}]},["7FumU"], null, "parcelRequirede3a")
 
 //# sourceMappingURL=main.00ff3c8c.js.map

@@ -185,16 +185,89 @@ template, [hidden] {
   display: none;
 }
 
+.navigation-link {
+  color: #2a2a2a;
+  background-color: #0000;
+  border: none;
+  border-radius: 0;
+  outline: none;
+  padding: 24px 30px;
+  font-weight: bold;
+  transition: background-color .3s, color .3s;
+}
+
+.navigation-link.active {
+  background-color: #ececec;
+}
+
+.navigation-link:hover {
+  color: #fff;
+  background-color: #2a71fd;
+}
+
+.navigation-link:active {
+  color: #fff;
+  background-color: #0e4ac2;
+}
+
+.navigation-link:focus-visible {
+  background-color: #dce8ff;
+}
+
 .header {
   background-color: #fff;
   margin-bottom: 20px;
-  padding: 10px 0;
 }
 
-.navigation {
-  align-items: center;
-  gap: 20px;
+.header__container {
+  justify-content: space-between;
   display: flex;
+}
+
+.header__navigation {
+  display: flex;
+}
+
+.header__logo {
+  align-self: center;
+}
+
+.logo {
+  height: 35px;
+}
+
+.basket-btn {
+  cursor: pointer;
+  background-color: #0000;
+  border: none;
+  border-radius: 0;
+  outline: none;
+  align-items: center;
+  padding: 15px;
+  transition: background-color .3s;
+  display: flex;
+}
+
+.basket-btn.active {
+  background-color: #ececec;
+}
+
+.basket-btn svg {
+  width: 25px;
+  height: 25px;
+  transition: fill .3s;
+}
+
+.basket-btn:hover svg {
+  fill: #ffa413;
+}
+
+.basket-btn:active svg {
+  fill: #f08400;
+}
+
+.basket-btn:focus-visible {
+  background-color: #fde7cd;
 }
 
 /*# sourceMappingURL=index.0898f127.css.map */

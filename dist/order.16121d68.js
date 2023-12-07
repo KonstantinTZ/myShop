@@ -590,20 +590,7 @@ function getOrderPage() {
     return page;
 }
 
-},{"@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3","/src/js/components/desc/desc.js":"2aBBT","/src/js/components/mainTitle/mainTitle.js":"ki5if"}],"2aBBT":[function(require,module,exports) {
-var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
-parcelHelpers.defineInteropFlag(exports);
-// create description
-parcelHelpers.export(exports, "getDescr", ()=>getDescr);
-var _descCss = require("./desc.css");
-function getDescr(text) {
-    const desc = document.createElement("p");
-    desc.textContent = text;
-    desc.classList.add("desc");
-    return desc;
-}
-
-},{"./desc.css":"kfYoF","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"kfYoF":[function() {},{}],"ki5if":[function(require,module,exports) {
+},{"/src/js/components/mainTitle/mainTitle.js":"ki5if","/src/js/components/desc/desc.js":"2aBBT","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"ki5if":[function(require,module,exports) {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
 // create main title
@@ -616,6 +603,19 @@ function getMainTitle(text) {
     return title;
 }
 
-},{"@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3","./mainTitle.css":"8xezA"}],"8xezA":[function() {},{}]},["4ykfB"], null, "parcelRequirede3a")
+},{"./mainTitle.css":"8xezA","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"8xezA":[function() {},{}],"2aBBT":[function(require,module,exports) {
+var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
+parcelHelpers.defineInteropFlag(exports);
+// create description
+parcelHelpers.export(exports, "getDescr", ()=>getDescr);
+var _descCss = require("./desc.css");
+function getDescr(text) {
+    const desc = document.createElement("p");
+    desc.textContent = text;
+    desc.classList.add("desc");
+    return desc;
+}
+
+},{"./desc.css":"kfYoF","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"kfYoF":[function() {},{}]},["4ykfB"], null, "parcelRequirede3a")
 
 //# sourceMappingURL=order.16121d68.js.map
